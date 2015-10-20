@@ -5,6 +5,5 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jme3"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/jme3-libraries"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/jME3-lwjgl-cn"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
