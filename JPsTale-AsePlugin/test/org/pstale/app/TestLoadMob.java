@@ -25,7 +25,7 @@ public class TestLoadMob extends SimpleApplication {
 		System.out.println("ZERO:" + Vector3f.ZERO + " X:" + Vector3f.UNIT_X + " Y:" + Vector3f.UNIT_Y + " Z:" + Vector3f.UNIT_Z + " XYZ:" + Vector3f.UNIT_XYZ);
 		
 		assetManager.registerLoader(AseLoader.class, "ase");
-		assetManager.registerLocator("D:/Priston Tale/0_ËØ²Ä/Client", FileLocator.class);
+		assetManager.registerLocator("models", FileLocator.class);
 		
 		AmbientLight light = new AmbientLight();
 		light.setColor(ColorRGBA.White);

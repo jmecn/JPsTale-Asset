@@ -99,18 +99,12 @@ public class TestLoadMonster extends SimpleApplication {
 		if (new File("F:/1_DEVELOP/3_ËØ²Ä").isDirectory()) {
 			assetManager.registerLocator("F:/1_DEVELOP/3_ËØ²Ä", FileLocator.class);
 		}
+		if (new File("models").isDirectory()) {
+			assetManager.registerLocator("models", FileLocator.class);
+		}
 
 		Spatial flag = assetManager.loadAsset(new AseKey("char/Flag/wow.ASE"));
 		rootNode.attachChild(flag);
-
-		Spatial anim = assetManager.loadAsset(new AseKey("data/model/animtest.ase"));
-		anim.scale(0.1f);
-		rootNode.attachChild(anim);
-
-		Spatial rot = assetManager.loadAsset(new AseKey("data/model/rottest.ase"));
-		rot.scale(0.1f);
-		rot.move(0, 0, 30);
-		rootNode.attachChild(rot);
 
 		Spatial death_knight = assetManager.loadAsset(new AseKey("char/monster/death_knight/death_knight.ASE"));
 		death_knight.move(0, 0, 300);
