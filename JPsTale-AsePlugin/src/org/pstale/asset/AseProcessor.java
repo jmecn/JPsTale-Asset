@@ -70,7 +70,7 @@ public class AseProcessor implements CONSTANT {
 		// build models 
 		compileModel(scene.getObjects());
 		// create bones - don't use
-		//compileSkeleton(scene);
+		compileSkeleton(scene);
 		// bake animation - don't use
 		// compileAnimation(scene);
 		return rootNode;
@@ -91,7 +91,12 @@ public class AseProcessor implements CONSTANT {
 	 */
 	protected void compileModel(List<GeomObject> objects) {
 		cache.clear();
+		Node bones = new Node("BONES");
+		rootNode.attachChild(bones);
 
+		Node skins = new Node("SKINS");
+		rootNode.attachChild(skins);
+		
 		for (GeomObject obj : objects) {
 
 			// Check mesh
@@ -100,15 +105,23 @@ public class AseProcessor implements CONSTANT {
 				// It may be a HelpObject or Bip, do nothing for now
 			} else if (obj.isBone()) {
 				// It's a bone, handle it in compileSkeleton() method.
+				Mesh mesh = compileSingleMesh(obj);
+
+				Geometry geom = new Geometry(obj.name, mesh);
+				geom.setModelBound(new BoundingBox());
+				geom.updateModelBound();
+				geom.setMaterial(getWireFrameMaterial());// Even if it has no matrials, i want to see the bone.
+
+				bones.attachChild(geom);
 			} else if (!obj.hasMaterial() || !obj.hasTextureFace()) {
 				Mesh mesh = compileSingleMesh(obj);
 
 				Geometry geom = new Geometry(obj.name, mesh);
 				geom.setModelBound(new BoundingBox());
 				geom.updateModelBound();
-				geom.setMaterial(getWireFrameMaterial());// Even if it has no matrials, i want to see it.
+				geom.setMaterial(getAlphaMaterial());// Even if it has no matrials, i want to see it.
 
-				rootNode.attachChild(geom);
+				skins.attachChild(geom);
 				geom = null;
 			} else {
 				switch (obj.mtl.clazz) {
@@ -124,7 +137,7 @@ public class AseProcessor implements CONSTANT {
 
 					makeScript(geom, obj.mtl);
 					
-					rootNode.attachChild(geom);
+					skins.attachChild(geom);
 
 					material = null;
 					geom = null;
@@ -209,7 +222,7 @@ public class AseProcessor implements CONSTANT {
 				
 				makeScript(geom, diffuseMaps.subMtls.get(mtl_id));
 			}
-			rootNode.attachChild(geom);
+			((Node)rootNode.getChild("SKINS")).attachChild(geom);
 
 			geom = null;
 		}
@@ -624,51 +637,57 @@ public class AseProcessor implements CONSTANT {
 				parent.addChild(bone);
 			}
 
-			// World Transform
-			Matrix4f world = obj.getNodeTransfromMatrix4f();
-			// putWorld
+//			// World Transform
+//			Matrix4f world = obj.getNodeTransfromMatrix4f();
+//			// putWorld
+//			Bone p = bone.getParent();
+//			if (p != null) {
+//				// Translation
+//				Vector3f v = p.getWorldBindPosition();
+//				Matrix4f t = new Matrix4f(1, 0, 0, v.x, 0, 1, 0, v.y, 0, 0, 1, v.z, 0, 0, 0, 1);
+//				
+//				// Rotation
+//				Quaternion q = p.getWorldBindRotation();
+//				Matrix4f m = new Matrix4f();
+//				q.toRotationMatrix(m);
+//				m.m33 = 1;
+//				
+//				// Scale
+//				Vector3f s = p.getWorldBindScale();
+//				Matrix4f sc = new Matrix4f(s.x, 0, 0, 0, 0, s.y, 0, 0, 0, 0, s.z, 0, 0, 0, 0, 1);
+//				
+//				Matrix4f tmp = t.mult(m).mult(sc).invert();
+//				world = tmp.mult(world);
+//			}
+//			
+//			// putLocal world bone
+//			Vector3f translation = new Vector3f();
+//			Vector3f scale = new Vector3f();
+//			Quaternion orientation = new Quaternion();
+//			
+//			translation.x = world.get(0, 3);
+//			translation.y = world.get(1, 3);
+//			translation.z = world.get(2, 3);
+//			Matrix3f r = new Matrix3f();
+//			world.toRotationMatrix(r);
+//			scale.x = r.getColumn(0).length();
+//			scale.y = r.getColumn(1).length();
+//			scale.z = r.getColumn(2).length();
+//			
+//			r.scale(new Vector3f(1.0f/scale.x, 1.0f/scale.y, 1.0f/scale.z));
+//			
+//			orientation.fromRotationMatrix(r);
+//			
+//			System.out.println("Old:" + obj.row3 + " " + obj.rotation + " " + obj.scale);
+//			System.out.println("New:" + translation + " " + orientation + " " + scale);
+//
+//			bone.setBindTransforms(translation, orientation, scale);
+			
 			Bone p = bone.getParent();
 			if (p != null) {
-				// Translation
-				Vector3f v = p.getWorldBindPosition();
-				Matrix4f t = new Matrix4f(1, 0, 0, v.x, 0, 1, 0, v.y, 0, 0, 1, v.z, 0, 0, 0, 1);
-				
-				// Rotation
-				Quaternion q = p.getWorldBindRotation();
-				Matrix4f m = new Matrix4f();
-				q.toRotationMatrix(m);
-				m.m33 = 1;
-				
-				// Scale
-				Vector3f s = p.getWorldBindScale();
-				Matrix4f sc = new Matrix4f(s.x, 0, 0, 0, 0, s.y, 0, 0, 0, 0, s.z, 0, 0, 0, 0, 1);
-				
-				Matrix4f tmp = t.mult(m).mult(sc).invert();
-				world = tmp.mult(world);
+				// TODO
 			}
-			
-			// putLocal world bone
-			Vector3f translation = new Vector3f();
-			Vector3f scale = new Vector3f();
-			Quaternion orientation = new Quaternion();
-			
-			translation.x = world.get(0, 3);
-			translation.y = world.get(1, 3);
-			translation.z = world.get(2, 3);
-			Matrix3f r = new Matrix3f();
-			world.toRotationMatrix(r);
-			scale.x = r.getColumn(0).length();
-			scale.y = r.getColumn(1).length();
-			scale.z = r.getColumn(2).length();
-			
-			r.scale(new Vector3f(1.0f/scale.x, 1.0f/scale.y, 1.0f/scale.z));
-			
-			orientation.fromRotationMatrix(r);
-			
-			System.out.println("Old:" + obj.row3 + " " + obj.rotation + " " + obj.scale);
-			System.out.println("New:" + translation + " " + orientation + " " + scale);
-
-			bone.setBindTransforms(translation, orientation, scale);
+			bone.setBindTransforms(obj.pos, obj.rotation, obj.scale);
 
 			bone = null;
 		}

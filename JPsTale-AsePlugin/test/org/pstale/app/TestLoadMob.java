@@ -4,19 +4,17 @@ import org.pstale.asset.AseKey;
 import org.pstale.asset.AseLoader;
 import org.pstale.asset.FileLocator;
 
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.Skeleton;
 import com.jme3.app.SimpleApplication;
-import com.jme3.app.StatsAppState;
-import com.jme3.app.StatsView;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
-import com.jme3.math.Matrix4f;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
-import com.jme3.scene.Spatial;
+import com.jme3.scene.Node;
+import com.jme3.scene.debug.SkeletonDebugger;
 
 public class TestLoadMob extends SimpleApplication {
 
@@ -26,7 +24,10 @@ public class TestLoadMob extends SimpleApplication {
 		app.start();
 	}
 	
-	Spatial mob = null;
+	Node mob = null;
+	Node bone = null;
+	Node skin = null;
+	Node skeletonDebug;
 	
 	@Override
 	public void simpleInitApp() {
@@ -37,41 +38,63 @@ public class TestLoadMob extends SimpleApplication {
 		light.setColor(ColorRGBA.White);
 		rootNode.addLight(light);
 		
-		mob = assetManager.loadAsset(new AseKey("char/monster/death_knight/death_knight.ASE"));
+		mob = (Node)assetManager.loadAsset(new AseKey("char/monster/chaoscara/chaoscara.ASE"));
 		mob.scale(0.05f);
 		rootNode.attachChild(mob);
 		
+		bone = (Node) mob.getChild("BONES");
+		skin = (Node) mob.getChild("SKINS");
+		
 		initKeys();
+		
+		// Debug skeleton
+		final AnimControl ac = mob.getControl(AnimControl.class);
+		if (ac != null) {
+			// add a skeleton debugger to make bones visible
+			final Skeleton skel = ac.getSkeleton();
+			skeletonDebug = new SkeletonDebugger("skeleton", skel);
+			final Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+			mat.setColor("Color", ColorRGBA.Green);
+			mat.getAdditionalRenderState().setDepthTest(false);
+			skeletonDebug.setMaterial(mat);
+			mob.attachChild(skeletonDebug);
+		}
 	}
 	
+	boolean isVisiavle = true;
 	void initKeys() {
-		inputManager.addMapping("Test", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		inputManager.addMapping("Skin", new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
+		inputManager.addMapping("Bone", new MouseButtonTrigger(MouseInput.BUTTON_RIGHT));
+		inputManager.addMapping("SkeDebug", new MouseButtonTrigger(MouseInput.BUTTON_MIDDLE));
+		
 		inputManager.addListener(new ActionListener() {
 			@Override
 			public void onAction(String name, boolean isPressed, float tpf) {
-				if (isPressed && name.equals("Test")) {
-					System.out.println("=== Camera settings ===");
-					System.out.println("Location:" + cam.getLocation() + " Rotation:" + cam.getRotation() + " Direction:" + cam.getDirection() + " Up:" + cam.getUp());
+				if (isPressed) {
+					if (name.equals("Bone")) {
+						if (mob.hasChild(bone)) {
+							mob.detachChild(bone);
+						} else {
+							mob.attachChild(bone);
+						}
+					}
+					if (name.equals("Skin")) {
+						if (mob.hasChild(skin)) {
+							mob.detachChild(skin);
+						} else {
+							mob.attachChild(skin);
+						}
+					}
 					
-					System.out.println("=== Statics ===");
-					System.out.println("Vector3f ZERO:" + Vector3f.ZERO + " X:" + Vector3f.UNIT_X + " Y:" + Vector3f.UNIT_Y + " Z:" + Vector3f.UNIT_Z + " XYZ:" + Vector3f.UNIT_XYZ);
-					System.out.println("Matrix4f ZERO:" + Matrix4f.ZERO + " IDENTITY:" + Matrix4f.IDENTITY);
-					System.out.println("Quaternion IDENTITY:" + Quaternion.IDENTITY + " ZERO:" + Quaternion.ZERO + " Z:" + Quaternion.DIRECTION_Z);
-					
-					System.out.println("=== Model ===");
-					System.out.println("Location:" + mob.getLocalTranslation() + " Rotation:" + mob.getLocalRotation() + " Scale:" + mob.getLocalScale());
-
-					System.out.println("=== StatsView ===");
-					StatsAppState statsAppState = stateManager.getState(StatsAppState.class);
-					if (statsAppState != null) {
-						StatsView view = statsAppState.getStatsView();
-						if (view != null) {
-							Quaternion rot = view.getLocalRotation();
-							System.out.println("Rotation:" + rot);
+					if (name.equals("SkeDebug")) {
+						if (mob.hasChild(skeletonDebug)) {
+							mob.detachChild(skeletonDebug);
+						} else {
+							mob.attachChild(skeletonDebug);
 						}
 					}
 				}
-			}}, "Test");
+			}}, "Skin", "Bone", "SkeDebug");
 	}
 
 }
