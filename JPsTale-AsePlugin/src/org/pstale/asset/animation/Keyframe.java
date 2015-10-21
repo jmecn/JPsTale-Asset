@@ -11,9 +11,9 @@ public class Keyframe implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -4309902941256315699L;
-	public Vector3f translation = Vector3f.ZERO;
-	public Quaternion rotation = Quaternion.IDENTITY;
-	public Vector3f scale = Vector3f.UNIT_XYZ;
+	public Vector3f translation = new Vector3f(0, 0, 0);
+	public Quaternion rotation = new Quaternion(0, 0, 0, 1);
+	public Vector3f scale = new Vector3f(1, 1, 1);
 
 	public Keyframe() {
 	}
