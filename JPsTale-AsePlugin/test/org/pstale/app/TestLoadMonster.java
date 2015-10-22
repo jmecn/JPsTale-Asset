@@ -114,7 +114,7 @@ public class TestLoadMonster extends SimpleApplication {
 		chaoscara.move(0, 0, 150);
 		rootNode.attachChild(chaoscara);
 		
-//		debugSke(death_knight);
+		debugSke(death_knight);
 
 		initAmbient();
 		initKeys();

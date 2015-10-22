@@ -469,15 +469,31 @@ public class AseLoader implements AssetLoader {
 				ret.z = nextFloat(tok);
 				obj.row3 = ret;
 			} else if (cmd.equals(TM_POS)) {
-				obj.pos = nextVector3f(tok);
+				Vector3f ret = new Vector3f(0, 0, 0);
+				ret.x = nextFloat(tok);
+				ret.y = nextFloat(tok);
+				ret.z = nextFloat(tok);
+				obj.pos = ret;
 			} else if (cmd.equals(TM_ROTAXIS)) {
-				obj.rotAxis = nextVector3f(tok);
+				Vector3f ret = new Vector3f(0, 0, 0);
+				ret.x = nextFloat(tok);
+				ret.y = nextFloat(tok);
+				ret.z = nextFloat(tok);
+				obj.rotAxis = ret;
 			} else if (cmd.equals(TM_ROTANGLE)) {
 				obj.rotAngle = nextFloat(tok);
 			} else if (cmd.equals(TM_SCALE)) {
-				obj.scale = nextVector3f(tok);
+				Vector3f ret = new Vector3f(0, 0, 0);
+				ret.x = nextFloat(tok);
+				ret.y = nextFloat(tok);
+				ret.z = nextFloat(tok);
+				obj.scale = ret;
 			} else if (cmd.equals(TM_SCALEAXIS)) {
-				obj.scaleAxis = nextVector3f(tok);
+				Vector3f ret = new Vector3f(0, 0, 0);
+				ret.x = nextFloat(tok);
+				ret.y = nextFloat(tok);
+				ret.z = nextFloat(tok);
+				obj.scaleAxis = ret;
 			} else if (cmd.equals(TM_SCALEAXISANG)) {
 				obj.scaleAxisAngle = nextFloat(tok);
 			}

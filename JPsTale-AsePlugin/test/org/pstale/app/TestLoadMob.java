@@ -13,7 +13,12 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
+import com.jme3.scene.debug.Arrow;
+import com.jme3.scene.debug.Grid;
 import com.jme3.scene.debug.SkeletonDebugger;
 
 public class TestLoadMob extends SimpleApplication {
@@ -39,7 +44,7 @@ public class TestLoadMob extends SimpleApplication {
 		rootNode.addLight(light);
 		
 		mob = (Node)assetManager.loadAsset(new AseKey("char/monster/chaoscara/chaoscara.ASE"));
-		mob.scale(0.05f);
+		mob.scale(0.1f);
 		rootNode.attachChild(mob);
 		
 		bone = (Node) mob.getChild("BONES");
@@ -59,6 +64,8 @@ public class TestLoadMob extends SimpleApplication {
 			skeletonDebug.setMaterial(mat);
 			mob.attachChild(skeletonDebug);
 		}
+		
+		showNodeAxes(15);
 	}
 	
 	boolean isVisiavle = true;
@@ -97,4 +104,44 @@ public class TestLoadMob extends SimpleApplication {
 			}}, "Skin", "Bone", "SkeDebug");
 	}
 
+	public void showNodeAxes(float axisLen) {
+		Mesh mesh = new Grid(31, 31, 4f);
+		Geometry grid = new Geometry("Axis", mesh);
+		Material gm = new Material(assetManager,
+				"Common/MatDefs/Misc/Unshaded.j3md");
+		gm.setColor("Color", ColorRGBA.White);
+		gm.getAdditionalRenderState().setWireframe(true);
+		grid.setMaterial(gm);
+		grid.center().move(0, -0.1f, 0);
+
+		rootNode.attachChild(grid);
+
+		//
+		Vector3f v = new Vector3f(axisLen, 0, 0);
+		Arrow a = new Arrow(v);
+		Material mat = new Material(assetManager,
+				"Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", ColorRGBA.Red);
+		Geometry geom = new Geometry(rootNode.getName() + "XAxis", a);
+		geom.setMaterial(mat);
+		rootNode.attachChild(geom);
+
+		//
+		v = new Vector3f(0, axisLen, 0);
+		a = new Arrow(v);
+		mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", ColorRGBA.Green);
+		geom = new Geometry(rootNode.getName() + "YAxis", a);
+		geom.setMaterial(mat);
+		rootNode.attachChild(geom);
+
+		//
+		v = new Vector3f(0, 0, axisLen);
+		a = new Arrow(v);
+		mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+		mat.setColor("Color", ColorRGBA.Blue);
+		geom = new Geometry(rootNode.getName() + "ZAxis", a);
+		geom.setMaterial(mat);
+		rootNode.attachChild(geom);
+	}
 }

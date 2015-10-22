@@ -101,7 +101,7 @@ public class GeomObject implements Serializable {
 
 	// Animation
 	public boolean isBone() {
-		return name.startsWith("Bip");
+		return name.startsWith("Bip") || name.startsWith("Dummy");
 	}
 
 	public TreeMap<Float, Keyframe> keyframes;

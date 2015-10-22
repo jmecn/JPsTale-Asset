@@ -621,11 +621,10 @@ public class AseProcessor implements CONSTANT {
 		List<Bone> boneList = new ArrayList<Bone>();
 		for (GeomObject obj : scene.getObjects()) {
 			if (!obj.isBone()) {
-				System.out.println(obj.name);
+//				System.out.println(obj.name);
 				// Not a bone??
 				continue;
 			}
-			
 			
 			Bone bone = new Bone(obj.name);
 			boneMap.put(obj.name, bone);
@@ -636,52 +635,6 @@ public class AseProcessor implements CONSTANT {
 				Bone parent = boneMap.get(obj.parent);
 				parent.addChild(bone);
 			}
-
-//			// World Transform
-//			Matrix4f world = obj.getNodeTransfromMatrix4f();
-//			// putWorld
-//			Bone p = bone.getParent();
-//			if (p != null) {
-//				// Translation
-//				Vector3f v = p.getWorldBindPosition();
-//				Matrix4f t = new Matrix4f(1, 0, 0, v.x, 0, 1, 0, v.y, 0, 0, 1, v.z, 0, 0, 0, 1);
-//				
-//				// Rotation
-//				Quaternion q = p.getWorldBindRotation();
-//				Matrix4f m = new Matrix4f();
-//				q.toRotationMatrix(m);
-//				m.m33 = 1;
-//				
-//				// Scale
-//				Vector3f s = p.getWorldBindScale();
-//				Matrix4f sc = new Matrix4f(s.x, 0, 0, 0, 0, s.y, 0, 0, 0, 0, s.z, 0, 0, 0, 0, 1);
-//				
-//				Matrix4f tmp = t.mult(m).mult(sc).invert();
-//				world = tmp.mult(world);
-//			}
-//			
-//			// putLocal world bone
-//			Vector3f translation = new Vector3f();
-//			Vector3f scale = new Vector3f();
-//			Quaternion orientation = new Quaternion();
-//			
-//			translation.x = world.get(0, 3);
-//			translation.y = world.get(1, 3);
-//			translation.z = world.get(2, 3);
-//			Matrix3f r = new Matrix3f();
-//			world.toRotationMatrix(r);
-//			scale.x = r.getColumn(0).length();
-//			scale.y = r.getColumn(1).length();
-//			scale.z = r.getColumn(2).length();
-//			
-//			r.scale(new Vector3f(1.0f/scale.x, 1.0f/scale.y, 1.0f/scale.z));
-//			
-//			orientation.fromRotationMatrix(r);
-//			
-//			System.out.println("Old:" + obj.row3 + " " + obj.rotation + " " + obj.scale);
-//			System.out.println("New:" + translation + " " + orientation + " " + scale);
-//
-//			bone.setBindTransforms(translation, orientation, scale);
 			
 			Bone p = bone.getParent();
 			if (p != null) {
@@ -691,6 +644,7 @@ public class AseProcessor implements CONSTANT {
 
 			bone = null;
 		}
+		
 		Bone[] bones = boneList.toArray(new Bone[boneList.size()]);
 		Skeleton ske = new Skeleton(bones);
 
