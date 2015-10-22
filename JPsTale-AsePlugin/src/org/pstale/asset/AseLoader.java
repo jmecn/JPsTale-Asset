@@ -883,7 +883,6 @@ public class AseLoader implements AssetLoader {
 		for (Keyframe k : keyframes.values()) {
 			if (k.rotation != null) {
 				ori = k.rotation.mult(ori);
-				ori.normalizeLocal();
 				k.rotation.set(ori);
 			}
 		}
