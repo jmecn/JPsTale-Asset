@@ -44,7 +44,7 @@ public class TestLoadMob extends SimpleApplication {
 		light.setColor(ColorRGBA.White);
 		rootNode.addLight(light);
 		
-		mob = (Node)assetManager.loadAsset(new AseKey("char/monster/death_knight/death_knight.ASE"));
+		mob = (Node)assetManager.loadAsset(new AseKey("char/monster/chaoscara/chaoscara.ASE"));
 		mob.scale(0.04f);
 		rootNode.attachChild(mob);
 		
