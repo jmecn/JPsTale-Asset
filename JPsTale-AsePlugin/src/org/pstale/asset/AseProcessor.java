@@ -636,11 +636,18 @@ public class AseProcessor implements CONSTANT {
 				parent.addChild(bone);
 			}
 			
-			Bone p = bone.getParent();
-			if (p != null) {
-				// TODO
-			}
-			bone.setBindTransforms(obj.pos, obj.rotation, obj.scale);
+			// Translation
+			Vector3f position = new Vector3f(-obj.pos.y, obj.pos.z, -obj.pos.x);
+			
+			// Rotation
+			Quaternion rotation = new Quaternion();
+			Vector3f rotAxis = new Vector3f(-obj.rotAxis.y, obj.rotAxis.z, -obj.rotAxis.x);
+			rotation.fromAngleAxis(-obj.rotAngle, rotAxis);
+			
+			// Scale
+			Vector3f scale = new Vector3f(obj.scale.y, obj.scale.z, obj.scale.x);
+			
+			bone.setBindTransforms(position, rotation, scale);
 
 			bone = null;
 		}
