@@ -4,6 +4,7 @@ import org.pstale.asset.AseKey;
 import org.pstale.asset.AseLoader;
 import org.pstale.asset.FileLocator;
 
+import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Skeleton;
 import com.jme3.app.SimpleApplication;
@@ -43,8 +44,8 @@ public class TestLoadMob extends SimpleApplication {
 		light.setColor(ColorRGBA.White);
 		rootNode.addLight(light);
 		
-		mob = (Node)assetManager.loadAsset(new AseKey("char/monster/chaoscara/chaoscara.ASE"));
-		mob.scale(0.1f);
+		mob = (Node)assetManager.loadAsset(new AseKey("char/monster/death_knight/death_knight.ASE"));
+		mob.scale(0.04f);
 		rootNode.attachChild(mob);
 		
 		bone = (Node) mob.getChild("BONES");
@@ -63,6 +64,9 @@ public class TestLoadMob extends SimpleApplication {
 			mat.getAdditionalRenderState().setDepthTest(false);
 			skeletonDebug.setMaterial(mat);
 			mob.attachChild(skeletonDebug);
+			
+			AnimChannel channel = ac.createChannel();
+			channel.setAnim("Anim");
 		}
 		
 		showNodeAxes(15);

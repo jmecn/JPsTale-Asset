@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.pstale.asset.animation.Keyframe;
 import org.pstale.asset.material.Mtl;
 import org.pstale.asset.mesh.AseScene;
 import org.pstale.asset.mesh.Face;
 import org.pstale.asset.mesh.GeomObject;
 
 import com.jme3.animation.AnimControl;
+import com.jme3.animation.Animation;
 import com.jme3.animation.Bone;
+import com.jme3.animation.BoneTrack;
 import com.jme3.animation.Skeleton;
 import com.jme3.asset.AssetInfo;
 import com.jme3.asset.AssetKey;
@@ -69,10 +72,12 @@ public class AseProcessor implements CONSTANT {
 		rootNode = new Node("Ascii_Model_" + scene.name);
 		// build models 
 		compileModel(scene.getObjects());
-		// create bones - don't use
+		// create bones
 		compileSkeleton(scene);
-		// bake animation - don't use
-		// compileAnimation(scene);
+		// create animation - don't use
+		compileAnimation(scene);
+		// bake animation
+		bake();
 		return rootNode;
 	}
 
@@ -621,7 +626,6 @@ public class AseProcessor implements CONSTANT {
 		List<Bone> boneList = new ArrayList<Bone>();
 		for (GeomObject obj : scene.getObjects()) {
 			if (!obj.isBone()) {
-//				System.out.println(obj.name);
 				// Not a bone??
 				continue;
 			}
@@ -655,9 +659,64 @@ public class AseProcessor implements CONSTANT {
 		Bone[] bones = boneList.toArray(new Bone[boneList.size()]);
 		Skeleton ske = new Skeleton(bones);
 
-		// TODO bake animation
 		AnimControl ac = new AnimControl(ske);
 		rootNode.addControl(ac);
 
+	}
+	
+	protected void compileAnimation(AseScene scene) {
+		
+		String name = "Anim";
+		float length = scene.getAnimationLength();
+		Animation anim = new Animation(name, length);
+
+		// Calculate tracks
+		Skeleton ske = rootNode.getControl(AnimControl.class).getSkeleton();
+		for (GeomObject obj : scene.getObjects()) {
+			if (!obj.isBone()) {
+				// Not a bone??
+				System.out.println(obj.name + " isn't a bone.");
+				continue;
+			}
+			if (!obj.hasAnimation()) {
+				// Don't have keyframes
+				System.out.println(obj.name + " has not animation.");
+				continue;
+			}
+			
+			int targetBoneIndex = ske.getBoneIndex(obj.name);
+			int size = obj.keyframes.size();
+			float[] times = new float[size];
+			Vector3f[] translations = new Vector3f[size];
+			Quaternion[] rotations = new Quaternion[size];
+			Vector3f[] scales = new Vector3f[size];
+			
+			System.out.println(obj.name + " keyframes:" + size);
+			int i = 0;
+			for(float time : obj.keyframes.keySet()) {
+				times[i] = time;
+				Keyframe frame = obj.keyframes.get(time);
+				translations[i] = frame.translation;
+				rotations[i] = frame.rotation;
+				scales[i] = frame.scale;
+				
+				assert translations[i] != null;
+				assert rotations[i] != null;
+				assert scales[i] != null;
+				
+				i++;
+			}
+			
+			assert i == size;
+			
+			BoneTrack track = new BoneTrack(targetBoneIndex, times, translations, rotations, scales);
+			anim.addTrack(track);
+		}
+		
+		rootNode.getControl(AnimControl.class).addAnim(anim);
+	}
+	
+	protected void bake() {
+		
 	}
 }

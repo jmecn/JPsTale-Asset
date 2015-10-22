@@ -909,7 +909,10 @@ public class AseLoader implements AssetLoader {
 					|| cmd.equals("*CONTROL_TCB_SCALE_KEY")
 					|| cmd.equals("*CONTROL_BEZIER_SCALE_KEY")) {
 				float time = nextFloat(tok) * scene.getSecsPerTick();
-				Vector3f scale = nextVector3f(tok);
+				Vector3f scale = new Vector3f(0, 0, 0);
+				scale.y = nextFloat(tok);
+				scale.z = nextFloat(tok);
+				scale.x = nextFloat(tok);
 				
 				Keyframe k = getOrMakeKeyframe(keyframes, time);
 				k.scale = scale;
