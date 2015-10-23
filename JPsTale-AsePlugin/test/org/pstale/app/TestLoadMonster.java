@@ -6,6 +6,7 @@ import org.pstale.asset.AseKey;
 import org.pstale.asset.AseLoader;
 import org.pstale.asset.FileLocator;
 
+import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Skeleton;
 import com.jme3.app.SimpleApplication;
@@ -115,6 +116,7 @@ public class TestLoadMonster extends SimpleApplication {
 		rootNode.attachChild(chaoscara);
 		
 		debugSke(death_knight);
+		debugSke(chaoscara);
 
 		initAmbient();
 		initKeys();
@@ -189,8 +191,8 @@ public class TestLoadMonster extends SimpleApplication {
 			((Node) ac.getSpatial()).attachChild(skeletonDebug);
 
 			// create a channel and start the walk animation
-//			final AnimChannel channel = ac.createChannel();
-//			channel.setAnim("walk");
+			final AnimChannel channel = ac.createChannel();
+			channel.setAnim("Anim");
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
