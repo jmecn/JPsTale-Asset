@@ -1,13 +1,12 @@
-package org.pstale.app;
-
-import org.pstale.asset.AseKey;
-import org.pstale.asset.AseLoader;
-import org.pstale.asset.FileLocator;
+package com.jme3.asset.maxase.app;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Skeleton;
 import com.jme3.app.SimpleApplication;
+import com.jme3.asset.maxase.AseKey;
+import com.jme3.asset.maxase.AseLoader;
+import com.jme3.asset.maxase.FileLocator;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.MouseButtonTrigger;

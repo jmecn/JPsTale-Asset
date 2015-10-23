@@ -1,14 +1,8 @@
-package org.pstale.asset;
+package com.jme3.asset.maxase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import org.pstale.asset.animation.Keyframe;
-import org.pstale.asset.material.Mtl;
-import org.pstale.asset.mesh.AseScene;
-import org.pstale.asset.mesh.Face;
-import org.pstale.asset.mesh.GeomObject;
 
 import com.jme3.animation.AnimControl;
 import com.jme3.animation.Animation;
@@ -18,6 +12,11 @@ import com.jme3.animation.Skeleton;
 import com.jme3.asset.AssetInfo;
 import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetManager;
+import com.jme3.asset.maxase.animation.Keyframe;
+import com.jme3.asset.maxase.material.Mtl;
+import com.jme3.asset.maxase.mesh.AseScene;
+import com.jme3.asset.maxase.mesh.Face;
+import com.jme3.asset.maxase.mesh.GeomObject;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;

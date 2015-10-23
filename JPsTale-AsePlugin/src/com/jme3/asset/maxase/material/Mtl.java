@@ -1,9 +1,9 @@
-package org.pstale.asset.material;
+package com.jme3.asset.maxase.material;
 
 import java.io.Serializable;
 import java.util.HashMap;
 
-import org.pstale.asset.CONSTANT;
+import com.jme3.asset.maxase.CONSTANT;
 
 public class Mtl implements CONSTANT, Serializable {
 	/**

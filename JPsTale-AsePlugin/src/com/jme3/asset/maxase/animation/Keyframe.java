@@ -1,4 +1,4 @@
-package org.pstale.asset.animation;
+package com.jme3.asset.maxase.animation;
 
 import java.io.Serializable;
 

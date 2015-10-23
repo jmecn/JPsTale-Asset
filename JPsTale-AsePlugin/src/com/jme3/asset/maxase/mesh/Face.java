@@ -1,4 +1,4 @@
-package org.pstale.asset.mesh;
+package com.jme3.asset.maxase.mesh;
 
 import java.io.Serializable;
 

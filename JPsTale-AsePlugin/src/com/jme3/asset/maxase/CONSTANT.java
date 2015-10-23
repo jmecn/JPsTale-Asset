@@ -1,6 +1,6 @@
-package org.pstale.asset;
+package com.jme3.asset.maxase;
 
-import org.pstale.asset.material.MatsScriptCode;
+import com.jme3.asset.maxase.material.MatsScriptCode;
 
 /**
  * under developing. Most of them are useless for now.

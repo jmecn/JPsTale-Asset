@@ -1,4 +1,4 @@
-package org.pstale.asset;
+package com.jme3.asset.maxase;
 
 import java.io.File;
 import java.io.FileInputStream;

@@ -1,4 +1,4 @@
-package org.pstale.asset.material;
+package com.jme3.asset.maxase.material;
 
 public class MatsScriptCode {
 	public String script;

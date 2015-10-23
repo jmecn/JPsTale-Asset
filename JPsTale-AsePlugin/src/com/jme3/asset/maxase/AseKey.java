@@ -1,4 +1,4 @@
-package org.pstale.asset;
+package com.jme3.asset.maxase;
 
 import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetProcessor;

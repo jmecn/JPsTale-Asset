@@ -1,14 +1,13 @@
-package org.pstale.asset.mesh;
+package com.jme3.asset.maxase.mesh;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.pstale.asset.animation.Keyframe;
-import org.pstale.asset.animation.VertexAssignment;
-import org.pstale.asset.material.Mtl;
-
+import com.jme3.asset.maxase.animation.Keyframe;
+import com.jme3.asset.maxase.animation.VertexAssignment;
+import com.jme3.asset.maxase.material.Mtl;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;

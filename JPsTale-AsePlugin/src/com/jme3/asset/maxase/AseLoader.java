@@ -1,4 +1,4 @@
-package org.pstale.asset;
+package com.jme3.asset.maxase;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,17 +8,16 @@ import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
-import org.pstale.asset.animation.Keyframe;
-import org.pstale.asset.animation.VertexAssignment;
-import org.pstale.asset.material.Mtl;
-import org.pstale.asset.material.TextureMap;
-import org.pstale.asset.mesh.AseScene;
-import org.pstale.asset.mesh.Face;
-import org.pstale.asset.mesh.GeomObject;
-
 import com.jme3.asset.AssetInfo;
 import com.jme3.asset.AssetKey;
 import com.jme3.asset.AssetLoader;
+import com.jme3.asset.maxase.animation.Keyframe;
+import com.jme3.asset.maxase.animation.VertexAssignment;
+import com.jme3.asset.maxase.material.Mtl;
+import com.jme3.asset.maxase.material.TextureMap;
+import com.jme3.asset.maxase.mesh.AseScene;
+import com.jme3.asset.maxase.mesh.Face;
+import com.jme3.asset.maxase.mesh.GeomObject;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector2f;

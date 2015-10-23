@@ -1,11 +1,11 @@
-package org.pstale.asset.mesh;
+package com.jme3.asset.maxase.mesh;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.pstale.asset.material.Mtl;
+import com.jme3.asset.maxase.material.Mtl;
 
 public class AseScene implements Serializable{
 	/**
